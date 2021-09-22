@@ -7,14 +7,14 @@ public class Client {
 
         Scanner input = new Scanner(System.in);
         boolean connect = true;
-
+        String alias = null;
         try {
             Socket connectToServer = new Socket("localhost", 6969);
             DataInputStream isFromServer = new DataInputStream(connectToServer.getInputStream());
             DataOutputStream osToServer = new DataOutputStream(connectToServer.getOutputStream());
             if(connect)
                 System.out.print("Enter you alias: ");
-            String alias = input.nextLine();
+            alias = input.nextLine();
 
             osToServer.writeChars(alias);
 
@@ -22,9 +22,9 @@ public class Client {
         } catch (IOException ex) {
             System.out.println(ex.toString() + '\n');
         }
-
-        //System.out.print("Welcome " + alias);
-
+        if(alias!=null) {
+            System.out.print("Welcome " + alias);
+        }
 
     }
 }
