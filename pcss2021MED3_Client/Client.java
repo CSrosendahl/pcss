@@ -23,7 +23,10 @@ public class Client {
 
                 System.out.println("Username: " + username);
 
-
+                System.out.print("Type yes to continue with a new set of value or no to stop: ");
+                if (input.next().equals("no")) {
+                    connect = false;
+                }
             }
 
         } catch (IOException ex) {
