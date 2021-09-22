@@ -19,6 +19,10 @@ public class Client {
             osToServer.writeUTF(alias);
             isFromServer.readUTF();
 
+            String username = isFromServer.readUTF();
+
+            System.out.println("Username: " + username);
+
         } catch (IOException ex) {
             System.out.println(ex.toString() + '\n');
         }
