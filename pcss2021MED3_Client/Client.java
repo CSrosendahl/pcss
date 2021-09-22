@@ -6,7 +6,7 @@ public class Client {
     public static void main(String[] args) {
 
         Scanner input = new Scanner(System.in);
-        boolean connect = true;
+       boolean connect = true;
 
         try {
             Socket connectToServer = new Socket("localhost", 6969);
@@ -17,7 +17,7 @@ public class Client {
                 String alias = input.nextLine();
 
                 osToServer.writeUTF(alias);
-//                isFromServer.readUTF();
+
 
                 String username = isFromServer.readUTF();
 
@@ -27,6 +27,7 @@ public class Client {
                 if (input.next().equals("no")) {
                     connect = false;
                 }
+                isFromServer.readUTF();
             }
 
         } catch (IOException ex) {
