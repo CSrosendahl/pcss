@@ -34,7 +34,7 @@ public class Server {
             osToClient.writeUTF(username);
 
 
-            System.out.println("User name: " + username);
+            System.out.println("Username: " + username);
 
 
         } catch (IOException e) {

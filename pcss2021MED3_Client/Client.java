@@ -12,16 +12,19 @@ public class Client {
             Socket connectToServer = new Socket("localhost", 6969);
             DataInputStream isFromServer = new DataInputStream(connectToServer.getInputStream());
             DataOutputStream osToServer = new DataOutputStream(connectToServer.getOutputStream());
-            if(connect)
+            while(connect){
                 System.out.print("Enter you alias: ");
-            String alias = input.nextLine();
+                String alias = input.nextLine();
 
-            osToServer.writeUTF(alias);
-            isFromServer.readUTF();
+                osToServer.writeUTF(alias);
+                isFromServer.readUTF();
 
-            String username = isFromServer.readUTF();
+                String username = isFromServer.readUTF();
 
-            System.out.println("Username: " + username);
+                System.out.println("Username: " + username);
+
+
+            }
 
         } catch (IOException ex) {
             System.out.println(ex.toString() + '\n');
