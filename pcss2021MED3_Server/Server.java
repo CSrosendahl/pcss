@@ -27,21 +27,14 @@ public class Server {
                     connectToClient.getOutputStream());
 
 
-            double annualInterestRate = isFromClient.readDouble();
+            String username = isFromClient.readUTF();
 
-            int numOfYears = isFromClient.readInt();
 
-            double loanAmount = isFromClient.readDouble();
 
-            double monthlyInterestRate = annualInterestRate/1200;
-            double monthlyPayment = loanAmount * monthlyInterestRate / (1-(1/Math.pow(1 + monthlyInterestRate, numOfYears * 12)));
+            osToClient.writeUTF(username);
 
-            double totalPayment = monthlyPayment * numOfYears * 12;
 
-            osToClient.writeDouble(monthlyPayment);
-            osToClient.writeDouble(totalPayment);
-
-            System.out.println("Annual Interest Rate: " + annualInterestRate + "\nNumber of Years: " + numOfYears + "\nLoan Amount: " +loanAmount + "\n");
+            System.out.println("User name: " + username);
 
 
         } catch (IOException e) {
