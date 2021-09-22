@@ -17,7 +17,7 @@ public class Client {
                 String alias = input.nextLine();
 
                 osToServer.writeUTF(alias);
-                isFromServer.readUTF();
+//                isFromServer.readUTF();
 
                 String username = isFromServer.readUTF();
 
