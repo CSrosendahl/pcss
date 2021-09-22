@@ -7,23 +7,20 @@ public class Client {
 
         Scanner input = new Scanner(System.in);
         boolean connect = true;
-        String alias = null;
+
         try {
             Socket connectToServer = new Socket("localhost", 6969);
             DataInputStream isFromServer = new DataInputStream(connectToServer.getInputStream());
             DataOutputStream osToServer = new DataOutputStream(connectToServer.getOutputStream());
             if(connect)
                 System.out.print("Enter you alias: ");
-            alias = input.nextLine();
+            String alias = input.nextLine();
 
-            osToServer.writeChars(alias);
-
+            osToServer.writeUTF(alias);
+            isFromServer.readUTF();
 
         } catch (IOException ex) {
             System.out.println(ex.toString() + '\n');
-        }
-        if(alias!=null) {
-            System.out.print("Welcome " + alias);
         }
 
     }
