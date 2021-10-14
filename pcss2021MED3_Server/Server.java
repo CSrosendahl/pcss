@@ -32,8 +32,6 @@ public class Server {
 
 
             osToClient.writeUTF(username);
-
-
             System.out.println("Username: " + username);
 
 

@@ -17,13 +17,12 @@ public class Client {
                 String alias = input.nextLine();
 
                 osToServer.writeUTF(alias);
-//                isFromServer.readUTF();
+
 
                 String username = isFromServer.readUTF();
 
-                System.out.println("Username: " + username);
-
-                System.out.print("Type yes to continue with a new set of value or no to stop: ");
+                System.out.print("Welcome " + username + "! You have arrived at the chat lobby!");
+                System.out.print("From her you have the options to: Join, Create or view Online users");
                 if (input.next().equals("no")) {
                     connect = false;
                 }
