@@ -22,7 +22,7 @@ public class Client {
                 String username = isFromServer.readUTF();
 
                 System.out.print("Welcome " + username + "! You have arrived at the chat lobby!");
-                System.out.print("From her you have the options to: Join, Create or view Online users");
+                System.out.print("From her you have the options to: Join, Create or view Online users.");
                 if (input.next().equals("no")) {
                     connect = false;
                 }
