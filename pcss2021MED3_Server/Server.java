@@ -17,7 +17,7 @@ public class Server {
         new Thread( () -> {
             try {
                 ServerSocket serverSocket = new ServerSocket(6969);
-                System.out.println("Loan Server started at " + new Date() + '\n');
+                System.out.println("Chat Server started at " + new Date() + '\n');
 
                 int clientNo = 0;
                 while (true) {

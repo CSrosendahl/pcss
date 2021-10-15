@@ -2,14 +2,14 @@ import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Client {
+public class Client1 {
     public static void main(String[] args) {
 
         Scanner input = new Scanner(System.in);
         boolean connect = true;
 
         try {
-            Socket connectToServer = new Socket("127.0.0.1", 6969);
+            Socket connectToServer = new Socket("localhost", 6969);
             DataInputStream isFromServer = new DataInputStream(connectToServer.getInputStream());
             DataOutputStream osToServer = new DataOutputStream(connectToServer.getOutputStream());
             while(connect){
