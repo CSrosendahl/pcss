@@ -9,6 +9,7 @@ public class Client1 {
         boolean connect = true;
 
         try {
+            //change localhost to what ever ip address the server is running on
             Socket connectToServer = new Socket("localhost", 6969);
             DataInputStream isFromServer = new DataInputStream(connectToServer.getInputStream());
             DataOutputStream osToServer = new DataOutputStream(connectToServer.getOutputStream());
