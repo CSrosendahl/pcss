@@ -9,7 +9,7 @@ public class Client {
         boolean connect = true;
 
         try {
-            Socket connectToServer = new Socket("127.0.0.1", 6969);
+            Socket connectToServer = new Socket("localhost", 6969);
             DataInputStream isFromServer = new DataInputStream(connectToServer.getInputStream());
             DataOutputStream osToServer = new DataOutputStream(connectToServer.getOutputStream());
             while(connect){
