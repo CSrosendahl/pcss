@@ -25,15 +25,14 @@ public class WorkerRunnable implements Runnable {
 
             while (connected) {
 
-
-
                 String username = isFromClient.readUTF();
-
-
-
-
                 osToClient.writeUTF(username);
                 System.out.println("Username: " + username);
+                boolean Rooms = isFromClient.readBoolean();
+                if (!Rooms){
+                    String rooms = "rooms";
+                    osToClient.writeUTF(rooms);
+                }
 
             }
         }
