@@ -1,47 +1,64 @@
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.InetAddress;
+
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Server {
 
-    static int port = 6969;
+
+    private Set<String> newClientNames = new HashSet<>();
+
+    private Set<WorkerRunnable> workerRunnable = new HashSet<>();
+
+
+
+
 
     public static void main(String[] args) {
 
 
 
-        new Thread( () -> {
-            try {
-                ServerSocket serverSocket = new ServerSocket(6969);
+        Server server = new Server();
+        server.serverthread();
+
+
+    }
+    void addClientName(String clientName) {
+        newClientNames.add(clientName);
+    }
+
+    public void serverthread() {
+
+            try ( ServerSocket serverSocket = new ServerSocket(6969)) {
+
                 System.out.println("Chat Server started at " + new Date() + '\n');
 
-                int clientNo = 0;
+
                 while (true) {
 
                     Socket connectToClient = serverSocket.accept();
-                    clientNo++;
+                    WorkerRunnable newClient = new WorkerRunnable(connectToClient,this);
+                    workerRunnable.add(newClient);
+                    newClient.start();
 
-                    System.out.println("Starting thread for client " + clientNo + " at " + new Date() + '\n');
 
-                    InetAddress inetAddress = connectToClient.getInetAddress();
-                    System.out.println("Client " + clientNo + "'s host name is " + inetAddress.getHostName() + '\n');
-                    System.out.println("Client " + clientNo + "'s IP Address is " + inetAddress.getHostAddress() + '\n');
-                    new Thread(
-                            new WorkerRunnable(
-                                    connectToClient, "Multithreaded Server")
-                    ).start();
                 }
             }
             catch (IOException e) {
-                System.err.println(e);
+                System.out.println("Doesnt work");
+                e.printStackTrace();
             }
-        }).start();
 
-
+    }
+    void broadcast(String message, WorkerRunnable excludeUser) {
+        for(WorkerRunnable aUser : workerRunnable) {
+            if(aUser != excludeUser) {
+                aUser.sendMessage(message);
+            }
+        }
     }
 }
 

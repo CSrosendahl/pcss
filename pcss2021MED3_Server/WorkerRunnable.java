@@ -1,45 +1,59 @@
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InterruptedIOException;
-import java.net.Socket;
-import java.util.Date;
+import java.io.*;
+import java.net.*;
+import java.util.*;
 
-public class WorkerRunnable implements Runnable {
+
+
+public class WorkerRunnable extends Thread {
 
     private Socket clientSocket = null;
-    private String serverText = "";
+    private Server server;
+    private PrintWriter printWriter;
 
-    public WorkerRunnable(Socket clientSocket, String serverText) {
+    public WorkerRunnable(Socket clientSocket, Server server) {
         this.clientSocket = clientSocket;
-        this.serverText = serverText;
+        this.server = server;
     }
 
     public void run() {
+
         try {
-            System.out.println("Connected to a client " + " at " + new Date() + '\n');
+          String serverMessage =  "Connected to a client " + " at " + new Date() + '\n';
             boolean connected = true;
+
 
             DataInputStream isFromClient = new DataInputStream(clientSocket.getInputStream());
             DataOutputStream osToClient = new DataOutputStream(clientSocket.getOutputStream());
 
-            while (connected) {
+            String clientName = isFromClient.readUTF();
+            server.addClientName(clientName);
+            String clientMessage;
 
-                String username = isFromClient.readUTF();
-                osToClient.writeUTF(username);
-                System.out.println("Username: " + username);
-                boolean Rooms = isFromClient.readBoolean();
-                if (!Rooms){
-                    String rooms = "rooms";
-                    osToClient.writeUTF(rooms);
+            while(connected){
+                clientMessage = isFromClient.readUTF();
+                serverMessage = "[" + clientName + "]" + clientMessage;
+                server.broadcast(serverMessage,this);
+
+                if(clientMessage.equals("/rooms")) {
+
+                    // Enter a room
+                    System.out.println("You are about to enter a room");
                 }
-                if ()
-
             }
+
+
+
+
+
+
+
         }
         catch (IOException e) {
             System.err.println(e);
         }
+    }
+    void sendMessage(String message) {
+        printWriter.println(message);
     }
 }
 

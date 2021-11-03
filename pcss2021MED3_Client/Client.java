@@ -6,16 +6,13 @@ public class Client {
     public static void main(String[] args) {
 
         Scanner input = new Scanner(System.in);
-        boolean connect = true;
-
+       boolean connect = true;
 
         try {
-            //change localhost to what ever ip address the server is running on
             Socket connectToServer = new Socket("localhost", 6969);
             DataInputStream isFromServer = new DataInputStream(connectToServer.getInputStream());
             DataOutputStream osToServer = new DataOutputStream(connectToServer.getOutputStream());
             while(connect){
-                boolean Rooms = true;
                 System.out.print("Enter you alias: ");
                 String alias = input.nextLine();
 
@@ -24,20 +21,13 @@ public class Client {
 
                 String username = isFromServer.readUTF();
 
-                System.out.print("Welcome " + username + "! You have arrived at the chat lobby! ");
-                System.out.print("From her you have the options to: Join, Create or view Online users.");
+                System.out.println("Username: " + username);
 
-                if (input.next().equalsIgnoreCase("Rooms")) {
-                    Rooms = false;
-                    osToServer.writeBoolean(Rooms);
-                    String rooms = isFromServer.readUTF();
-                    System.out.println(rooms);
-
-                }
-
+                System.out.print("Type yes to continue with a new set of value or no to stop: ");
                 if (input.next().equals("no")) {
                     connect = false;
                 }
+                isFromServer.readUTF();
             }
 
         } catch (IOException ex) {
