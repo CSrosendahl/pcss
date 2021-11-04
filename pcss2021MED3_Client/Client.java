@@ -31,16 +31,16 @@ public class Client{
 
                 System.out.println("Username: " + username);
 
-                String message;
+                String message = "a";
 
-                do {
+                while (!message.equals("/quit")) {
 
                     message = input.nextLine();
                     osToServer.writeUTF(message);
                     String messageR = isFromServer.readUTF();
                     System.out.print(messageR);
 
-                } while (!message.equals("/quit"));
+                }
 
 
 
