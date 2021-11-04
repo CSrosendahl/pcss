@@ -12,8 +12,9 @@ public class Client {
             Socket connectToServer = new Socket("localhost", 6969);
             DataInputStream isFromServer = new DataInputStream(connectToServer.getInputStream());
             DataOutputStream osToServer = new DataOutputStream(connectToServer.getOutputStream());
+            System.out.println("Connected to the chat server");
             while(connect){
-                System.out.print("Enter you alias: ");
+                System.out.print("Enter you Username: ");
                 String alias = input.nextLine();
 
                 osToServer.writeUTF(alias);
@@ -23,7 +24,7 @@ public class Client {
 
                 System.out.println("Username: " + username);
 
-                System.out.print("Type yes to continue with a new set of value or no to stop: ");
+
                 if (input.next().equals("no")) {
                     connect = false;
                 }

@@ -25,11 +25,14 @@ public class WorkerRunnable extends Thread {
             DataInputStream isFromClient = new DataInputStream(clientSocket.getInputStream());
             DataOutputStream osToClient = new DataOutputStream(clientSocket.getOutputStream());
 
-            String clientName = isFromClient.readUTF();
-            server.addClientName(clientName);
-            String clientMessage;
+
 
             while(connected){
+                String clientName = isFromClient.readUTF();
+                server.addClientName(clientName);
+                osToClient.writeUTF(clientName);
+                String clientMessage;
+
                 clientMessage = isFromClient.readUTF();
                 serverMessage = "[" + clientName + "]" + clientMessage;
                 server.broadcast(serverMessage,this);

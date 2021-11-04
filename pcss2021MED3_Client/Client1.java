@@ -14,7 +14,7 @@ public class Client1 {
             DataInputStream isFromServer = new DataInputStream(connectToServer.getInputStream());
             DataOutputStream osToServer = new DataOutputStream(connectToServer.getOutputStream());
             while(connect){
-                System.out.print("Enter you alias: ");
+                System.out.print("Enter you Username: ");
                 String alias = input.nextLine();
 
                 osToServer.writeUTF(alias);
