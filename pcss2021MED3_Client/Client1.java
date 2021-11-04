@@ -1,19 +1,26 @@
 import java.io.*;
-import java.net.Socket;
+import java.net.*;
 import java.util.Scanner;
 
-public class Client1 {
+public class Client1{
+
+
+
     public static void main(String[] args) {
 
         Scanner input = new Scanner(System.in);
         boolean connect = true;
 
         try {
-            //change localhost to what ever ip address the server is running on
             Socket connectToServer = new Socket("localhost", 6969);
+
+
             DataInputStream isFromServer = new DataInputStream(connectToServer.getInputStream());
             DataOutputStream osToServer = new DataOutputStream(connectToServer.getOutputStream());
+
+            System.out.println("Connected to the chat server");
             while(connect){
+
                 System.out.print("Enter you Username: ");
                 String alias = input.nextLine();
 
@@ -22,11 +29,23 @@ public class Client1 {
 
                 String username = isFromServer.readUTF();
 
-                System.out.print("Welcome " + username + "! You have arrived at the chat lobby!");
-                System.out.print("From her you have the options to: Join, Create or view Online users.");
-                if (input.next().equals("no")) {
-                    connect = false;
-                }
+                System.out.println("Username: " + username);
+
+                String message;
+
+                do {
+
+                    message = input.nextLine();
+                    osToServer.writeUTF(message);
+                    String messageR = isFromServer.readUTF();
+                    System.out.print(messageR);
+
+                } while (!message.equals("/quit"));
+
+
+
+
+
             }
 
         } catch (IOException ex) {
@@ -34,4 +53,7 @@ public class Client1 {
         }
 
     }
+
+
+
 }

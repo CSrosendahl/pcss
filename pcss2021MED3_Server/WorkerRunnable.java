@@ -8,7 +8,8 @@ public class WorkerRunnable extends Thread {
 
     private Socket clientSocket = null;
     private Server server;
-    private PrintWriter printWriter;
+    private DataOutputStream output;
+    boolean connected = true;
 
     public WorkerRunnable(Socket clientSocket, Server server) {
         this.clientSocket = clientSocket;
@@ -18,30 +19,34 @@ public class WorkerRunnable extends Thread {
     public void run() {
 
         try {
-          String serverMessage =  "Connected to a client " + " at " + new Date() + '\n';
-            boolean connected = true;
+          String serverMessage;
 
 
-            DataInputStream isFromClient = new DataInputStream(clientSocket.getInputStream());
-            DataOutputStream osToClient = new DataOutputStream(clientSocket.getOutputStream());
+
+            DataInputStream input = new DataInputStream(clientSocket.getInputStream());
+            output = new DataOutputStream(clientSocket.getOutputStream());
 
 
 
             while(connected){
-                String clientName = isFromClient.readUTF();
+                String clientName = input.readUTF();
                 server.addClientName(clientName);
-                osToClient.writeUTF(clientName);
-                String clientMessage;
+                output.writeUTF(clientName);
+                boolean usernameSet = true;
+                while(usernameSet) {
+                    String clientMessage;
 
-                clientMessage = isFromClient.readUTF();
-                serverMessage = "[" + clientName + "]" + clientMessage;
-                server.broadcast(serverMessage,this);
+                    clientMessage = input.readUTF();
+                    serverMessage = "[" + clientName + "]" + clientMessage;
+                    output.writeUTF(serverMessage);
+                    server.broadcast(serverMessage, this);
+                }
 
-                if(clientMessage.equals("/rooms")) {
+                /*if(clientMessage.equals("/rooms")) {
 
                     // Enter a room
                     System.out.println("You are about to enter a room");
-                }
+                } */
             }
 
 
@@ -55,8 +60,16 @@ public class WorkerRunnable extends Thread {
             System.err.println(e);
         }
     }
-    void sendMessage(String message) {
-        printWriter.println(message);
+    public void sendMessage(String message){
+        try{
+            output.writeUTF(message);
+            
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 }
 
