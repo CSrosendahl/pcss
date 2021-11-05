@@ -17,16 +17,10 @@ public class WorkerRunnable extends Thread {
     }
 
     public void run() {
-
         try {
           String serverMessage;
-
-
-
             DataInputStream input = new DataInputStream(clientSocket.getInputStream());
             output = new DataOutputStream(clientSocket.getOutputStream());
-
-
 
             while(connected){
                 String clientName = input.readUTF();
@@ -35,11 +29,11 @@ public class WorkerRunnable extends Thread {
                 boolean usernameSet = true;
                 while(usernameSet) {
                     String clientMessage;
-
                     clientMessage = input.readUTF();
                     serverMessage = "[" + clientName + "]" + clientMessage;
                     output.writeUTF(serverMessage);
                     server.broadcast(serverMessage, this);
+
                 }
 
                 /*if(clientMessage.equals("/rooms")) {
@@ -66,7 +60,7 @@ public class WorkerRunnable extends Thread {
             
 
         } catch (IOException e) {
-            e.printStackTrace();
+                e.printStackTrace();
         }
 
 

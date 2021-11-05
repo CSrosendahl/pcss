@@ -8,9 +8,8 @@ import java.util.Set;
 
 public class Server {
 
-
+    private int port = 6969;
     private Set<String> newClientNames = new HashSet<>();
-
     private Set<WorkerRunnable> workerRunnable = new HashSet<>();
 
 
@@ -18,34 +17,24 @@ public class Server {
 
 
     public static void main(String[] args) {
-
-
-
         Server server = new Server();
         server.serverthread();
-
-
     }
+
     void addClientName(String clientName) {
         newClientNames.add(clientName);
     }
 
     public void serverthread() {
 
-            try ( ServerSocket serverSocket = new ServerSocket(6969)) {
-
+            try ( ServerSocket serverSocket = new ServerSocket(port)) {
                 System.out.println("Chat Server started at " + new Date() + '\n');
 
-
                 while (true) {
-
                     Socket connectToClient = serverSocket.accept();
                     WorkerRunnable newClient = new WorkerRunnable(connectToClient,this);
                     workerRunnable.add(newClient);
                     newClient.start();
-
-
-
                 }
             }
             catch (IOException e) {
