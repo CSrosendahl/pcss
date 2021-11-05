@@ -12,7 +12,7 @@ public class Client1{
         boolean connect = true;
 
         try {
-            Socket connectToServer = new Socket("localhost", 6969);
+            Socket connectToServer = new Socket("192.168.0.36", 6969);
 
 
             DataInputStream isFromServer = new DataInputStream(connectToServer.getInputStream());
@@ -38,7 +38,7 @@ public class Client1{
                     message = input.nextLine();
                     osToServer.writeUTF(message);
                     String messageR = isFromServer.readUTF();
-                    System.out.print(messageR);
+                    System.out.println(messageR);
 
                 }
 

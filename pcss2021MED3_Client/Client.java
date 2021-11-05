@@ -38,7 +38,7 @@ public class Client{
                     message = input.nextLine();
                     osToServer.writeUTF(message);
                     String messageR = isFromServer.readUTF();
-                    System.out.print(messageR);
+                    System.out.println(messageR);
 
                 }
 

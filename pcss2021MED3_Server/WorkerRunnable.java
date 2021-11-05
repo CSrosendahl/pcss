@@ -31,7 +31,7 @@ public class WorkerRunnable extends Thread {
                     String clientMessage;
                     clientMessage = input.readUTF();
                     serverMessage = "[" + clientName + "]" + clientMessage;
-                    output.writeUTF(serverMessage);
+                    //output.writeUTF(serverMessage);
                     server.broadcast(serverMessage, this);
 
                 }
