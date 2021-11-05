@@ -8,6 +8,12 @@ public class Client{
 
     public static void main(String[] args) {
 
+        Client.ClientEx();
+
+
+    }
+
+    public static void ClientEx(){
         Scanner input = new Scanner(System.in);
         boolean connect = true;
 
@@ -17,7 +23,6 @@ public class Client{
 
             DataInputStream isFromServer = new DataInputStream(connectToServer.getInputStream());
             DataOutputStream osToServer = new DataOutputStream(connectToServer.getOutputStream());
-
             System.out.println("Connected to the chat server");
             while(connect){
 
@@ -32,13 +37,16 @@ public class Client{
                 System.out.println("Username: " + username);
 
                 String message = "a";
+                System.out.print("["+ username+"]: ");
 
                 while (!message.equals("/quit")) {
-
                     message = input.nextLine();
                     osToServer.writeUTF(message);
                     String messageR = isFromServer.readUTF();
                     System.out.println(messageR);
+                    System.out.print("["+ username+"]: ");
+
+
 
                 }
 
@@ -51,9 +59,9 @@ public class Client{
         } catch (IOException ex) {
             System.out.println(ex.toString() + '\n');
         }
-
     }
 
 
-
 }
+
+

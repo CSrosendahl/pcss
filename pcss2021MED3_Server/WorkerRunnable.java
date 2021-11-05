@@ -9,7 +9,10 @@ public class WorkerRunnable extends Thread {
     private Socket clientSocket = null;
     private Server server;
     private DataOutputStream output;
-    boolean connected = true;
+    private boolean connected = false;
+    private boolean usernameSet = false;
+    private boolean Chat = false;
+    //private PrintWriter writer;
 
     public WorkerRunnable(Socket clientSocket, Server server) {
         this.clientSocket = clientSocket;
@@ -18,21 +21,37 @@ public class WorkerRunnable extends Thread {
 
     public void run() {
         try {
-          String serverMessage;
+            connected = true;
+            String serverMessage;
             DataInputStream input = new DataInputStream(clientSocket.getInputStream());
             output = new DataOutputStream(clientSocket.getOutputStream());
-
+            //BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+            //writer = new PrintWriter(output,true);
             while(connected){
                 String clientName = input.readUTF();
                 server.addClientName(clientName);
                 output.writeUTF(clientName);
-                boolean usernameSet = true;
-                while(usernameSet) {
-                    String clientMessage;
-                    clientMessage = input.readUTF();
-                    serverMessage = "[" + clientName + "]" + clientMessage;
-                    //output.writeUTF(serverMessage);
-                    server.broadcast(serverMessage, this);
+                usernameSet = true;
+
+                String Command = input.readUTF();
+                if(Command.equals("join")){
+                    Chat = true;
+                    serverMessage = "Joined Chat";
+                    server.broadcast(serverMessage,null);
+                }
+
+
+
+                while(Chat) {
+
+                        String clientMessage;
+                        clientMessage = input.readUTF();
+                            serverMessage = "[" + clientName + "]" + clientMessage;
+                            //output.writeUTF(serverMessage);
+                            server.broadcast(serverMessage, this);
+
+                        }
+
 
                 }
 
@@ -41,7 +60,7 @@ public class WorkerRunnable extends Thread {
                     // Enter a room
                     System.out.println("You are about to enter a room");
                 } */
-            }
+
 
 
 
@@ -55,13 +74,15 @@ public class WorkerRunnable extends Thread {
         }
     }
     public void sendMessage(String message){
-        try{
-            output.writeUTF(message);
+            try {
+                output.writeUTF(message);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             
 
-        } catch (IOException e) {
-                e.printStackTrace();
-        }
+
 
 
     }
